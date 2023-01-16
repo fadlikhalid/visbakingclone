@@ -36,8 +36,10 @@ Route::group(['middleware' => ['roles']], function () {
     Route::get('/categories/{category}/remove-image', [CategoryController::class, 'removeImage'])->name('categories.remove_image');
     Route::resource('categories', CategoryController::class);
     Route::post('/products/remove-image', [ProductController::class, 'removeImage'])->name('products.remove_image');
+// change to post from resource
     Route::resource('products', ProductController::class);
-    Route::resource('tags', TagController::class);
+    // Route::post('/product', [ProductController::class, 'store']);
+// 
     Route::resource('coupons', CouponController::class);
     Route::resource('reviews', ReviewController::class);
     Route::get('/supervisors/{supervisor}/remove-image', [SupervisorController::class, 'removeImage'])->name('supervisors.remove_image');

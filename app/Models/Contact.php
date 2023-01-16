@@ -8,6 +8,8 @@ use Nicolaslopezj\Searchable\SearchableTrait;
 class Contact extends Model
 {
 
+    public $fillable = ['name', 'email', 'mobile', 'title', 'message'];
+
     use SearchableTrait;
 
     protected $guarded = [];
@@ -19,7 +21,7 @@ class Contact extends Model
             'contacts.email'    => 10,
             'contacts.mobile'   => 10,
             'contacts.title'    => 10,
-            'contacts.message'  => 10,
+            'contacts.message'  => 10,  
         ],
     ];
 

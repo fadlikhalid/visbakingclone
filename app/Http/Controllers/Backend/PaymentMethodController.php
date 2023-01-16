@@ -7,6 +7,11 @@ use App\Http\Requests\Backend\PaymentMethodRequest;
 use App\Models\PaymentMethod;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Neonexxa\BillplzWrapperV3\BillplzCollection;
+use Neonexxa\BillplzWrapperV3\BillplzBill;
+use App\Models\Product;
+
 
 class PaymentMethodController extends Controller
 {
@@ -83,4 +88,24 @@ class PaymentMethodController extends Controller
             'alert-type' => 'success'
         ]);
     }
+
+    public function createBill(Request $request){
+        
+        //dd($request);
+        $res0 = new BillplzBill;
+        // $res0->collection_id = $request->collection; // which collection you want to park this bill under
+        $res0->collection_id = $request->collection; // which collection you want to park this bill under
+        $res0->description = $request->desc; // bill description
+        $res0->email = $request->email; // client email
+        $res0->name = $request->name; // cleint name
+        $res0->amount = $request->totPrice*100; // by default in cent
+        $res0->callback_url = "http://127.0.0.1:8000"; // callback url after execution
+        // and other optional params
+        $res0 = $res0->create_bill();
+        list($rhead ,$rbody, $rurl) = explode("\n\r\n", $res0);
+        $bplz_result = json_decode($rurl);   
+
+        // return redirect($bplz_result->url);
+    }
+
 }

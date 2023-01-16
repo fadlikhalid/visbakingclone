@@ -16,6 +16,19 @@ class Product extends Model
 {
     use HasFactory, Sluggable, SearchableTrait;
 
+    protected $fillable = [
+        'name',
+        'collection',
+        'description',        
+        'details',
+        // 'tags',
+        'price',
+        'quantity',
+        'featured',
+        'status',
+        'category_id',
+    ];
+
     protected $guarded = [];
 
     public function sluggable(): array
@@ -117,4 +130,6 @@ class Product extends Model
     {
         return $this->ratings->isNotEmpty() ? $this->ratings()->sum('value') / $this->ratings()->count() : 0;
     }
+
+    
 }

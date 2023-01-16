@@ -44,30 +44,51 @@ class ProductController extends Controller
         return view('backend.products.create', compact('categories', 'tags'));
     }
 
-    public function store(ProductRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        $this->authorize('create_product');
-
-        if ($request->validated()){
-            $product = Product::create($request->except('tags', 'images', '_token'));
-            $product->tags()->attach($request->tags);
-
-            if ($request->images && count($request->images) > 0) {
-                (new ImageService())->storeProductImages($request->images, $product);
-            }
-
-            clear_cache();
-
-            return redirect()->route('admin.products.index')->with([
-                'message' => 'Create product successfully',
-                'alert-type' => 'success'
-            ]);
-        }
-
-        return back()->with([
-            'message' => 'Something was wrong, please try again late',
-            'alert-type' => 'error'
+        // dd($request);
+        $valData = $request->validate([
+            'name' => 'required|unique:products|min:3|max:100',
+            'price' => 'required|numeric|between:0,999999.999',
+            'quantity' => 'required|numeric|between:0,10000',
+            'collection' => 'required|min:7|max:8',
+            'category_id' => 'required',
+            // 'tags' => 'required',
+            'featured' => 'required',
+            'status' => 'required',
+            'description' => 'required|min:10|max:250',
+            'details' => 'required|min:10|max:250',
+            // 'images' => 'image|file'
         ]);
+
+        Product::create($valData);
+
+        return back()->with('success', 'New product was added!');
+
+        
+
+        // $this->authorize('create_product');
+
+        // if ($request->validated()){
+        //     $product = Product::create($request->except('tags', 'images', '_token'));
+        //     $product->tags()->attach($request->tags);
+
+        //     if ($request->images && count($request->images) > 0) {
+        //         (new ImageService())->storeProductImages($request->images, $product);
+        //     }
+
+        //     clear_cache();
+
+        //     return redirect()->route('admin.products.index')->with([
+        //         'message' => 'Create product successfully',
+        //         'alert-type' => 'success'
+        //     ]);
+        // }
+
+        // return back()->with([
+        //     'message' => 'Something was wrong, please try again late',
+        //     'alert-type' => 'error'
+        // ]);
     }
 
     public function show(Product $product): View
