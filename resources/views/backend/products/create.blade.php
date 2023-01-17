@@ -3,11 +3,21 @@
     <link rel="stylesheet" href="{{ asset('backend/vendor/select2/css/select2.min.css') }}">
 @endsection
 @section('content')
+
+
+
+@if(session()->has('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>{{ session('success') }}</strong>
+        </div>
+      @endif
+
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex">
             <h6 class="m-0 font-weight-bold text-primary">
                 Create product
             </h6>
+            
             <div class="ml-auto">
                 <a href="{{ route('admin.products.index') }}" class="btn btn-primary">
                     <span class="icon text-white-50">
@@ -19,6 +29,7 @@
         </div>
         <div class="card-body">
             <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+            <!-- <form action="/admin/product" method="POST" enctype="multipart/form-data"> -->
                 @csrf
                 <div class="row">
                     <div class="col-4">
@@ -43,6 +54,14 @@
                             <input id="quantity" type="number" max="10000" class="form-control form-control-lg" name="quantity"
                                    value="{{ old('quantity') }}" >
                             @error('quantity')<span class="text-danger">{{ $message }}</span>@enderror
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="collection" class="text-small text-uppercase">{{ __('Collection ID') }}</label>
+                            <input id="collection" type="text" max="10000" class="form-control form-control-lg" name="collection"
+                                   value="{{ old('quantity') }}" >
+                            @error('collection')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                 </div>
@@ -119,14 +138,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                         <label for="images">images</label>
                         <br>
                         <div class="file-loading">
                             <input type="file" name="images[]" id="product-images" class="file-input-overview" multiple="multiple">
                         </div>
                         @error('images')<span class="text-danger">{{ $message }}</span>@enderror
-                    </div>
+                    </div> -->
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">

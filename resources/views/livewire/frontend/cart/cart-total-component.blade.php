@@ -1,3 +1,4 @@
+
 <div class="col-md-5 ml-auto">
     <div class="cart-page-total pt-0">
         @if($cartTotal != 0)
@@ -20,6 +21,11 @@
             @endif
             <li>Tax(5%)<span>${{ $cartTax }}</span></li>
             <li>Total<span>${{ $cartTotal }}</span></li>
+            <?php
+            $_SESSION["totalPrice"] = $cartTotal;
+            ?>
+
+
         </ul>
         <div class="coupon-all">
             <div class="coupon">
