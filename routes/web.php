@@ -26,6 +26,11 @@ Route::get('/shop/tag/{slug}', [ShopTagController::class, 'index'])->name('shop.
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
 
+//booking
+Route::get('/booking', function(){
+    return view('frontend.booking.index');
+} )-> name ('booking');
+
 //about-us
 Route::get('/about-us', function(){
     return view('frontend.about-us.index');

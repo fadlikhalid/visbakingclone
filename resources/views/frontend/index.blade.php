@@ -7,9 +7,9 @@
       <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
         <div class="box-shadow">
           <h2>Everyone can cook <span></span></h2>
-          <p>Book an appointment now</p>
+          <p>Book an appointment now test</p>
         </div>
-        &nbs p
+
         <div class="d-flex justify-content-center justify-content-lg-start">
           <a href="{{ url('about-us') }}" class="btn-get-started">Get Started</a>
           <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
