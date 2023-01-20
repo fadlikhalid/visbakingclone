@@ -84,7 +84,7 @@
               <img src="https://media.istockphoto.com/id/497959594/photo/fresh-cakes.jpg?s=612x612&w=0&k=20&c=T1vp7QPbg6BY3GE-qwg-i_SqVpstyHBMIwnGakdTTek=" class="img-fluid" alt="">
               <h4>Our Pastry Class</h4>
               <span>Learn how to create famous pastries from around the world</span>
-              <a href="{{ url('about-us') }}" class="btn-get-started">Book Your Session</a>
+              <a href="{{ url('booking') }}" class="btn-get-started">Book Your Session</a>
             </div>
           </div><!-- End Team Member -->
 
@@ -93,7 +93,7 @@
               <img src="https://www.melskitchencafe.com/wp-content/uploads/french-bread2.jpg" class="img-fluid" alt="">
               <h4>Our Bread Class</h4>
               <span>Learn how to create the best bread you can taste</span>
-              <a href="{{ url('about-us') }}" class="btn-get-started">Book Your Session</a>
+              <a href="{{ url('booking') }}" class="btn-get-started">Book Your Session</a>
               </div>
             </div><!-- End Team Member -->
 
@@ -102,9 +102,7 @@
                 <img src="https://images.ctfassets.net/u128j5s4q9gv/3ExB55vGz8wPHSInco6283/d4f48722e924bacd6d8ce508f7356d91/Screen_Shot_2019-01-17_at_12.52.23.png" class="img-fluid" alt="">
                 <h4>Our Traditional Class</h4>
                 <span>Learn how to create traditional pastry from Malaysia</span>
-                <form action="">
-                <a href="{{ url('about-us') }}" class="btn-get-started">Book Your Session</a>
-                </form>
+                <a href="{{ url('booking') }}" class="btn-get-started">Book Your Session</a>
               </div>
             </div><!-- End Team Member -->
 
