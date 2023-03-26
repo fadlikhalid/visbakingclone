@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('status')->default(1);
             $table->boolean('receive_email')->default(true);
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('is_admin')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

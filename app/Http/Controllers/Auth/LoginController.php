@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Http\Requests\Backend\LinkRequest;
+use App\Models\Link;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -60,11 +62,36 @@ class LoginController extends Controller
 
     public function redirectTo()
     {
-        if (auth()->user()->isAdminOrSupervisor()) {
-            return $this->redirectTo = '/admin';
-        }
+        // if (auth()->user()->isAdminOrSupervisor()) {
+        //     return $this->redirectTo = '/admin';
+        // }
 
-        return $this->redirectTo = '/';
+        // return $this->redirectTo = '/';
+    }
+
+    
+    public function userLogin(Request $request)
+    {
+        //dd($request);
+        $cred = $this->validate($request, [
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+
+
+        //dd(Auth::attempt($cred));
+
+        if (Auth::attempt($cred)) {
+            $request->session()->regenerate();
+            if (auth()->user()->is_admin == 1) {
+
+                return redirect()->intended('/penjaga');
+                // return $this->redirectTo = '/admin';
+            } else if (auth()->user()->is_admin == 0) {
+                return redirect()->intended('/');
+            }
+        }
+        return back()->with('logError', 'Login Failed, Please try again!');
     }
 
     public function logout(Request $request)

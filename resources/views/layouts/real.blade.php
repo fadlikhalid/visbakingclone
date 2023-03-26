@@ -14,7 +14,8 @@
     <!-- End Top Bar -->
 
     <!-- ======= Header ======= -->
-    <header id="header" class="header d-flex align-items-center">
+    <!-- <header id="header" class="header"> -->
+    <header>
         @include('includes.header')
     </header>
     <!-- End Header -->

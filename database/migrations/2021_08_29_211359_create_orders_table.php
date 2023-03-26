@@ -16,10 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('ref_id')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('user_address_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('shipping_company_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('payment_method_id')->nullable()->constrained()->nullOnDelete();
+
             $table->string('discount_code')->nullable();
             $table->double('discount')->default(0.00);
             $table->double('subtotal')->default(0.00);
