@@ -37,7 +37,7 @@ class UserController extends Controller
             ->orderBy(\request()->sortBy ?? 'id', \request()->orderBy ?? 'desc')
             ->paginate(\request()->limitBy ?? 10);
 
-        return view('backend.users.index', compact('users'));
+        return view('admin.user', compact('users'));
     }
 
     public function create(): View

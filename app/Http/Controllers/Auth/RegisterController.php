@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -56,6 +57,7 @@ class RegisterController extends Controller
             'username' => ['required', 'string', 'max:128', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'is_admin' => $data['is_admin'],
         ]);
     }
 
@@ -73,11 +75,30 @@ class RegisterController extends Controller
             'username' => $data['username'],
             'email' => $data['email'],
             'phone' => $data['phone'],
-            'password' => Hash::make($data['password'])
+            'password' => Hash::make($data['password']),
+            'is_admin' => $data['is_admin'],
         ]);
 
         $user->assignRole('user');
 
         return $user;
+    }
+
+    public function store(Request $request){
+        $val = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'username' => 'required|min:3|max:100|unique:users',
+            'phone' => 'required|string|max:255|unique:users',
+            'email' => 'required|email:dns|unique:users',
+            'password' => 'required|min:6|max:255|confirmed',
+            'is_admin',
+        ]);
+        
+        //$val['password'] = bcrypt($val['password']);
+        $val['password'] = Hash::make($val['password']);
+
+        User::create($val);
+        return redirect('/login')->with('success', 'Registration successful! You can now login');
     }
 }

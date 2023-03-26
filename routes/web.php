@@ -1,7 +1,11 @@
 <?php
+
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\ClassController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PageController;
@@ -12,38 +16,67 @@ use App\Http\Controllers\Frontend\ShopController;
 use App\Http\Controllers\Frontend\ShopTagController;
 use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Backend\PaymentMethodController;
+use App\Http\Controllers\Backend\BackendController;
+use App\Http\Controllers\Backend\AdminAuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes(['verify' => true]);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/class', [ClassController::class, 'index'])->name('class');
+Route::get('/blog-post', [BlogController::class, 'index'])->name('blog');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::get('/shop/{slug?}', [ShopController::class, 'index'])->name('shop.index');
-Route::get('/shop/tag/{slug}', [ShopTagController::class, 'index'])->name('shop.tag');
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
+//Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
+
+//register
+Route::post('/register', [RegisterController::class, 'store']);
+
+//login
+Route::post('/sign-in', [LoginController::class, 'userLogin']);
+
+//redirect admin login
+Route::get('/penjaga', function () {
+    return view('admin.index');
+})->name('penjaga');
+
+Route::get('user', [UserController::class, 'index'])->name('user');
+// Route::get('user/{slug}', [UserController::class, 'indexSlug'])->name('user');
+// Route::get('user/{id}', [UserController::class, 'edit'])->name('user');
+Route::post('user-admin', [UserController::class, 'setAdmin'])->name('user.admin');
+Route::delete('user-delete/{id}', [UserController::class, 'delete'])->name('user.delete');
+Route::put('user-update/{id}', [UserController::class, 'update'])->name('user.update');
+Route::get('user/search', [UserController::class, 'search'])->name('user.search');
+
 
 //booking
-Route::get('/booking', function(){
+Route::get('/booking', function () {
     return view('frontend.booking.index');
-} )-> name ('booking');
+})->name('booking');
+Route::post('booking', [BookingController::class, 'store']);
+
+// Product
+Route::get('/shop/{slug?}', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/shop/tag/{slug}', [ShopTagController::class, 'index'])->name('shop.tag');
+Route::get('/product-detail', [ShopController::class, 'productDetail'])->name('product.show');
 
 //about-us
-Route::get('/about-us', function(){
+Route::get('/about-us', function () {
     return view('frontend.about-us.index');
-} )-> name ('about-us');
+})->name('about-us');
 
 // Contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'create_contact'])->name('contact.store');
 
 //instructors
-Route::get('/instructors', function(){
+Route::get('/instructors', function () {
     return view('frontend.instructors.index');
-} )-> name ('instructors');
+})->name('instructors');
 
 
 Route::get('/page/{slug}', [PageController::class, 'show'])->name('page.show');
@@ -53,7 +86,7 @@ Route::get('login/{provider}', [LoginController::class, 'redirectToProvider'])->
 Route::get('login/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('social_login_callback');
 Route::post('/billing', [PaymentMethodController::class, 'createBill']);
 
-Route::middleware(['middleware' => 'auth', 'verified'])->group(function() {
+Route::middleware(['middleware' => 'auth', 'verified'])->group(function () {
     Route::get('/user/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
     Route::patch('/user/profile', [UserController::class, 'updateProfile'])->name('user.update_profile');
@@ -62,7 +95,7 @@ Route::middleware(['middleware' => 'auth', 'verified'])->group(function() {
     Route::get('/user/orders', [UserController::class, 'orders'])->name('user.orders');
 });
 
-Route::middleware(['middleware' => 'auth', 'checkCart'])->group(function() {
+Route::middleware(['middleware' => 'auth', 'checkCart'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     // PayPal gateway
     Route::post('/payment', [PaypalController::class, 'store'])->name('payment.store');

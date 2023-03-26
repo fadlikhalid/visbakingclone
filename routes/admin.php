@@ -24,10 +24,10 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => 'guest'], function () {
-    Route::get('/login', [AdminAuthController::class, 'login'])->name('login');
-    Route::get('/forgot-password', [AdminAuthController::class, 'forgotPassword'])->name('forgot_password');
-});
+// Route::group(['middleware' => 'guest'], function () {
+//     Route::get('/login', [AdminAuthController::class, 'login'])->name('login');
+//     Route::get('/forgot-password', [AdminAuthController::class, 'forgotPassword'])->name('forgot_password');
+// });
 
 Route::group(['middleware' => ['roles']], function () {
     Route::get('/', [BackendController::class, 'index'])->name('index');

@@ -7,6 +7,8 @@ use App\Http\Requests\Frontend\ProfileRequest;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\ImageUploadTrait;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -73,4 +75,61 @@ class UserController extends Controller
     {
         return view('frontend.user.orders');
     }
+
+    public function index()
+    {
+        // $users = User::where('is_admin', 0)->limit(30)->get();
+        $users = User::where('is_admin', 0)->paginate(30);
+        return view('admin.user', ['users' => $users]);
+    }
+
+    public function search()
+    {
+        // $username = $request->search;
+
+        // $users = User::where('username', 'like', "%" . $username . "%")->paginate(30);
+        // return view('admin.user', ['users' => $users]);
+        $users = User::where('is_admin', 0)->paginate(30);
+        return view('admin.user_search', ['users' => $users]);
+    }
+
+    public function edit(Request $id)
+    {
+        $user = User::findOrFail($id);
+
+        return view('admin.user', ['user' => $user]);
+    }
+
+    public function setAdmin(Request $request)
+    {
+        // dd($request);
+        $user = User::findOrFail($request->id);
+        $user->is_admin = "1";
+        $user->update();
+
+        return back()->with('status', 'User is now an admin');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
+        $user->receive_email = $request->input('receive_email');
+        $user->update();
+
+        return back()->with('status', 'User info is updated');
+    }
+
+    public function delete(Request $id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return back()->with('status', 'User is deleted');
+    }
+
+    
 }
